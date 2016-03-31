@@ -11,18 +11,18 @@ As of now the endpoint only adds pages automatically. You can manually add other
 The easiest way to install this package is by using composer from your terminal:
 
 ```bash
-composer require moxie-leean/wp-endpoints-routes
+composer require moxie-lean/wp-endpoints-routes
 ```
 
 Or by adding the following lines on your `composer.json` file
 
 ```json
 "require": {
-  "moxie-leean/wp-endpoints-routes": "dev-master"
+  "moxie-lean/wp-endpoints-routes": "dev-master"
 }
 ```
 
-This will download the files from the [packagist site](https://packagist.org/packages/moxie-leean/wp-endpoints-routes) 
+This will download the files from the [packagist site](https://packagist.org/packages/moxie-lean/wp-endpoints-routes) 
 and set you up with the latest version located on master branch of the repository. 
 
 After that you can include the `autoload.php` file in order to

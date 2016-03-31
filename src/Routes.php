@@ -26,19 +26,25 @@ class Routes extends AbstractEndpoint {
 	public function endpoint_callback( \WP_REST_Request $request ) {
 		$data = [];
 
+		$site_url = site_url();
+
 		// Create a route for each page.
 		$pages_query = new \WP_Query([
 			'post_type' => 'page',
+			// @codingStandardsIgnoreStart
+			// We need all pages, we really don't want to paginate this query.
+			'posts_per_page' => -1,
+			// codingStandardsIgnoreEnd
 		]);
 
 		while ( $pages_query->have_posts() ) {
 			$pages_query->the_post();
 
-			$page = get_post();
+			$page = $pages_query->post;
 
 			$data[] = [
 				'state' => $page->post_name,
-				'url' => str_replace( site_url(), '', get_permalink( $page ) ),
+				'url' => str_replace( $site_url, '', get_permalink( $page ) ),
 				'template' => get_post_meta( $page->ID, '_wp_page_template', true ),
 				'endpoint' => 'post',
 				'params' => [

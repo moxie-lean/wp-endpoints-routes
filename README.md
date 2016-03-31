@@ -88,9 +88,9 @@ The endpoint takes no inputs and returns data in the following format:
 You can do this with the ```ln_endpoints_data_routes``` filter as follows:
 
 ```php
-add_filter( 'ln_endpoints_data_routes', [ __CLASS__, 'add_extra_routes' ] );
+add_filter( 'ln_endpoints_data_routes', 'add_extra_routes' );
 
-public static function add_extra_routes( $routes ) {
+function add_extra_routes( $routes ) {
     $extra_routes = [
         [
             'state' => 'blog',

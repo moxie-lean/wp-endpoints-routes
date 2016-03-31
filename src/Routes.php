@@ -27,9 +27,15 @@ class Routes extends AbstractEndpoint {
 		$data = [];
 
 		// Create a route for each page.
-		$pages = get_pages();
+		$pages_query = new \WP_Query([
+			'post_type' => 'page',
+		]);
 
-		foreach( $pages as $page ) {
+		while ( $pages_query->have_posts() ) {
+			$pages_query->the_post();
+
+			$page = get_post();
+
 			$data[] = [
 				'state' => $page->post_name,
 				'url' => str_replace( site_url(), '', get_permalink( $page ) ),
@@ -37,9 +43,11 @@ class Routes extends AbstractEndpoint {
 				'endpoint' => 'post',
 				'params' => [
 					'id' => $page->ID,
-				]
+				],
 			];
 		}
+
+		wp_reset_postdata();
 
 		return $this->filter_data( $data );
 	}

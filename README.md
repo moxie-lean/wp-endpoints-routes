@@ -1,24 +1,28 @@
 # WP Endpoints: Routes
 
-> Get the set of routes and exposes them via WP-API. This extension will create an endpoint (at ```/wp-json/leean/v1/routes``` by default).
+> Get the set of routes and exposes them via WP-API. This extension will create an endpoint (at ```/wp-json/lean/v1/routes``` by default).
+
+## Current State
+
+As of now the endpoint only adds pages automatically. You can manually add others using the ```ln_endpoints_data_routes``` filter (see below).
 
 ## Getting Started
 
 The easiest way to install this package is by using composer from your terminal:
 
 ```bash
-composer require moxie-leean/wp-endpoints-routes
+composer require moxie-lean/wp-endpoints-routes
 ```
 
 Or by adding the following lines on your `composer.json` file
 
 ```json
 "require": {
-  "moxie-leean/wp-endpoints-routes": "dev-master"
+  "moxie-lean/wp-endpoints-routes": "dev-master"
 }
 ```
 
-This will download the files from the [packagist site](https://packagist.org/packages/moxie-leean/wp-endpoints-routes) 
+This will download the files from the [packagist site](https://packagist.org/packages/moxie-lean/wp-endpoints-routes) 
 and set you up with the latest version located on master branch of the repository. 
 
 After that you can include the `autoload.php` file in order to
@@ -38,7 +42,7 @@ Finally you need to initialise the endpoint by adding this to your code:
 
 The endpoint takes no inputs and returns data in the following format:
 
-```
+```json
 [
   {
     "state": "home",
@@ -77,4 +81,29 @@ The endpoint takes no inputs and returns data in the following format:
     "params": {}
   }
 ]
+```
+
+### Adding Extra Routes
+
+You can do this with the ```ln_endpoints_data_routes``` filter as follows:
+
+```php
+add_filter( 'ln_endpoints_data_routes', 'add_extra_routes' );
+
+function add_extra_routes( $routes ) {
+    $extra_routes = [
+        [
+            'state' => 'blog',
+            'url' => '/blog/',
+            'template' => 'blog',
+            'endpoint' => 'collection',
+            'params' => [
+                'type' => 'post',
+                'posts_per_page' => 5,
+            ]
+        ],
+    ];
+
+    return array_merge( $routes, $extra_routes );
+}
 ```

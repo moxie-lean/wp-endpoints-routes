@@ -2,6 +2,10 @@
 
 > Get the set of routes and exposes them via WP-API. This extension will create an endpoint (at ```/wp-json/leean/v1/routes``` by default).
 
+## Current State
+
+As of now the endpoint only adds pages automatically. You can manually add others using the ```ln_endpoints_data_routes``` filter (see below).
+
 ## Getting Started
 
 The easiest way to install this package is by using composer from your terminal:
@@ -38,7 +42,7 @@ Finally you need to initialise the endpoint by adding this to your code:
 
 The endpoint takes no inputs and returns data in the following format:
 
-```
+```json
 [
   {
     "state": "home",
@@ -77,4 +81,29 @@ The endpoint takes no inputs and returns data in the following format:
     "params": {}
   }
 ]
+```
+
+### Adding Extra Routes
+
+You can do this with the ```ln_endpoints_data_routes``` filter as follows:
+
+```php
+add_filter( 'ln_endpoints_data_routes', [ __CLASS__, 'add_extra_routes' ] );
+
+public static function add_extra_routes( $routes ) {
+    $extra_routes = [
+        [
+            'state' => 'blog',
+            'url' => '/blog/',
+            'template' => 'blog',
+            'endpoint' => 'collection',
+            'params' => [
+                'type' => 'post',
+                'posts_per_page' => 5,
+            ]
+        ],
+    ];
+
+    return array_merge( $routes, $extra_routes );
+}
 ```

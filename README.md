@@ -1,6 +1,6 @@
 # WP Endpoints: Routes
 
-> Get the set of routes and exposes them via WP-API. This extension will create an endpoint (at ```/wp-json/leean/v1/routes``` by default).
+> Get the set of routes and exposes them via WP-API. This extension will create an endpoint (at ```/wp-json/lean/v1/routes``` by default).
 
 ## Current State
 

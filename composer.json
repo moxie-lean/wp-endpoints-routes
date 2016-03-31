@@ -21,7 +21,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Leean\\Endpoints\\": "src/"
+      "Lean\\Endpoints\\": "src/"
     }
   },
   "require-dev": {

@@ -1,4 +1,4 @@
-<?php namespace Leean\Endpoints;
+<?php namespace Lean\Endpoints;
 
 use Leean\AbstractEndpoint;
 

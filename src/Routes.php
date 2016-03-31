@@ -24,7 +24,22 @@ class Routes extends AbstractEndpoint {
 	 * @return array|\WP_Error
 	 */
 	public function endpoint_callback( \WP_REST_Request $request ) {
-		$date = [];
+		$data = [];
+
+		// Create a route for each page.
+		$pages = get_pages();
+
+		foreach( $pages as $page ) {
+			$data[] = [
+				'state' => $page->post_name,
+				'url' => str_replace( site_url(), '', get_permalink( $page ) ),
+				'template' => get_post_meta( $page->ID, '_wp_page_template', true ),
+				'endpoint' => 'post',
+				'params' => [
+					'id' => $page->ID,
+				]
+			];
+		}
 
 		return $this->filter_data( $data );
 	}

@@ -26,7 +26,7 @@ class Routes extends AbstractEndpoint {
 	public function endpoint_callback( \WP_REST_Request $request ) {
 		$data = [];
 
-		$site_url = site_url();
+		$site_url = home_url();
 
 		// Create a route for each page.
 		$pages_query = new \WP_Query([

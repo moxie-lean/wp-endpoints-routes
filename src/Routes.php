@@ -1,6 +1,6 @@
 <?php namespace Lean\Endpoints;
 
-use Leean\AbstractEndpoint;
+use Lean\AbstractEndpoint;
 
 /**
  * Class to provide activation point for our endpoint.

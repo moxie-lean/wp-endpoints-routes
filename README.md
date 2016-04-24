@@ -35,7 +35,7 @@ include '/vendor/autoload.php';
 Finally you need to initialise the endpoint by adding this to your code:
 
 ```php
-\Leean\Endpoints\Routes::init();
+\Lean\Endpoints\Routes::init();
 ```
 
 ## Usage

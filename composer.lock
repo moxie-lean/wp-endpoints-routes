@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f92e8891ecfe7aaa99e339400a6c20eb",
-    "content-hash": "f356207f94776055195f86841d0dee6d",
+    "hash": "6a7da72854c7800d28ea5f0225a38b40",
+    "content-hash": "7cfe937ee27d7e3386ac65ea67b56bb2",
     "packages": [
         {
             "name": "moxie-lean/wp-endpoint",
-            "version": "0.3.0",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/moxie-leean/wp-endpoint.git",
-                "reference": "2c2bcf680f671022d24160c97bca8115d71b9951"
+                "reference": "a0d57f6cd385a720c2c0d2658d46bb199c65295e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/moxie-leean/wp-endpoint/zipball/2c2bcf680f671022d24160c97bca8115d71b9951",
-                "reference": "2c2bcf680f671022d24160c97bca8115d71b9951",
+                "url": "https://api.github.com/repos/moxie-leean/wp-endpoint/zipball/a0d57f6cd385a720c2c0d2658d46bb199c65295e",
+                "reference": "a0d57f6cd385a720c2c0d2658d46bb199c65295e",
                 "shasum": ""
             },
             "require": {
@@ -31,7 +31,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Leean\\": "src/"
+                    "Lean\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -46,7 +46,7 @@
             ],
             "description": "wp-endpoint",
             "homepage": "https://github.com/moxie-leean/wp-endpoints-post/",
-            "time": "2016-04-19 14:24:34"
+            "time": "2016-04-24 03:37:17"
         }
     ],
     "packages-dev": [

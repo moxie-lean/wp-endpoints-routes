@@ -44,7 +44,7 @@ class Routes extends AbstractEndpoint {
 
 			$data[] = [
 				'state' => $page->post_name,
-				'url' => str_replace( $site_url, '', get_permalink( $page ) ),
+				'url' => rtrim( str_replace( $site_url, '', get_permalink( $page ) ), '/' ),
 				'template' => get_post_meta( $page->ID, '_wp_page_template', true ),
 				'endpoint' => 'post',
 				'params' => [

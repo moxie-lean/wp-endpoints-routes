@@ -7,6 +7,10 @@ use Lean\AbstractEndpoint;
  */
 class Routes extends AbstractEndpoint {
 
+	const FILTER_BLOG_PARAMS = 'ln_endpoints_route_blog_params';
+
+	const FILTER_SINGLE_POST_ROUTE = 'ln_endpoints_route_single_post_route';
+
 	/**
 	 * Endpoint path
 	 *
@@ -28,6 +32,10 @@ class Routes extends AbstractEndpoint {
 
 		$site_url = home_url();
 
+		$page_on_front = get_option( 'page_on_front' );
+
+		$blog_page = get_option( 'page_for_posts' );
+
 		// Create a route for each page.
 		$pages_query = new \WP_Query([
 			'post_type' => 'page',
@@ -42,9 +50,15 @@ class Routes extends AbstractEndpoint {
 
 			$page = $pages_query->post;
 
+			if ( $page_on_front && $blog_page && (int) $blog_page === $page->ID ) {
+				continue;
+			}
+
+			$url = str_replace( $site_url, '', get_permalink( $page ) );
+
 			$data[] = [
 				'state' => $page->post_name,
-				'url' => str_replace( $site_url, '', get_permalink( $page ) ),
+				'url' => '/' === $url ? $url : rtrim( $url, '/' ),
 				'template' => get_post_meta( $page->ID, '_wp_page_template', true ),
 				'endpoint' => 'post',
 				'params' => [
@@ -55,6 +69,53 @@ class Routes extends AbstractEndpoint {
 
 		wp_reset_postdata();
 
-		return $this->filter_data( $data );
+		return $this->filter_data( array_merge( $data, self::get_blog_routes() ) );
+	}
+
+	/**
+	 * Create routes for the blog page and single posts if active..
+	 *
+	 * @return array
+	 */
+	private function get_blog_routes() {
+		$data = [];
+
+		$blog_url = false;
+
+		$site_url = home_url();
+
+		$page_on_front = get_option( 'page_on_front' );
+
+		$blog_page = get_option( 'page_for_posts' );
+
+		if ( ! $page_on_front ) {
+			$blog_url = '/';
+		} elseif ( $blog_page ) {
+			$blog_url = rtrim( str_replace( $site_url, '', get_permalink( $blog_page ) ), '/' );
+		}
+
+		if ( $blog_url ) {
+			$data[] = [
+				'state' => 'blogIndex',
+				'url' => $blog_url,
+				'template' => 'blog',
+				'endpoint' => 'collection',
+				'params' => apply_filters( self::FILTER_BLOG_PARAMS, [ ] ),
+			];
+		}
+
+		// Create routes for single blog posts if active.
+		$single_post_url = apply_filters( self::FILTER_SINGLE_POST_ROUTE, '/' === $blog_url ? '/blog' : $blog_url );
+
+		if ( $single_post_url ) {
+			$data[] = [
+				'state' => 'blogPost',
+				'url' => $single_post_url . '/:slug',
+				'template' => 'blog-single',
+				'endpoint' => 'post',
+			];
+		}
+
+		return $data;
 	}
 }

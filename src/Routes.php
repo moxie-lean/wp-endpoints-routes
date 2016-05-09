@@ -69,8 +69,24 @@ class Routes extends AbstractEndpoint {
 
 		wp_reset_postdata();
 
-		// Create routes for the blog page and single posts if active.
+		return $this->filter_data( array_merge( $data, self::get_blog_routes() ) );
+	}
+
+	/**
+	 * Create routes for the blog page and single posts if active..
+	 *
+	 * @return array
+	 */
+	private function get_blog_routes() {
+		$data = [];
+
 		$blog_url = false;
+
+		$site_url = home_url();
+
+		$page_on_front = get_option( 'page_on_front' );
+
+		$blog_page = get_option( 'page_for_posts' );
 
 		if ( ! $page_on_front ) {
 			$blog_url = '/';
@@ -100,6 +116,6 @@ class Routes extends AbstractEndpoint {
 			];
 		}
 
-		return $this->filter_data( $data );
+		return $data;
 	}
 }

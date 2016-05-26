@@ -2,7 +2,7 @@
   "name": "moxie-lean/wp-endpoints-routes",
   "description": "Get the set of routes.",
   "keywords": ["wordpress", "api"],
-  "homepage": "https://github.com/moxie-leean/wp-endpoints-routes",
+  "homepage": "https://github.com/moxie-lean/wp-endpoints-routes",
   "type": "library",
   "license": "MIT",
   "authors": [

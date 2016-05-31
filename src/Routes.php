@@ -60,9 +60,9 @@ class Routes extends AbstractEndpoint {
 				'state' => $page->post_name,
 				'url' => '/' === $url ? $url : rtrim( $url, '/' ),
 				'template' => get_post_meta( $page->ID, '_wp_page_template', true ),
-				'endpoint' => 'post',
+				'endpoint' => get_rest_url( null, 'wp/v2/pages' ),
 				'params' => [
-					'id' => $page->ID,
+					'include' => $page->ID,
 				],
 			];
 		}
@@ -99,8 +99,8 @@ class Routes extends AbstractEndpoint {
 				'state' => 'blogIndex',
 				'url' => $blog_url,
 				'template' => 'blog',
-				'endpoint' => 'collection',
-				'params' => apply_filters( self::FILTER_BLOG_PARAMS, [ ] ),
+				'endpoint' => get_rest_url( null, 'wp/v2/posts' ),
+				'params' => apply_filters( self::FILTER_BLOG_PARAMS, [] ),
 			];
 		}
 
@@ -112,7 +112,7 @@ class Routes extends AbstractEndpoint {
 				'state' => 'blogPost',
 				'url' => $single_post_url . '/:slug',
 				'template' => 'blog-single',
-				'endpoint' => 'post',
+				'endpoint' => get_rest_url( null, 'wp/v2/posts' ),
 			];
 		}
 

@@ -20,6 +20,17 @@ class Routes extends AbstractEndpoint {
 	protected $endpoint = '/routes';
 
 	/**
+	 * Get the full route of a default wp endpoint
+	 * Note bug in get_rest_url() - it does not work when the home and site url's are different.
+	 *
+	 * @param string $endpoint The endpoint.
+	 * @return string
+	 */
+	protected function get_wp_endpoint_route( $endpoint ) {
+		return site_url() . '/wp-json/wp/v2/' . $endpoint;
+	}
+
+	/**
 	 * Get the data.
 	 *
 	 * @Override
@@ -30,7 +41,7 @@ class Routes extends AbstractEndpoint {
 	public function endpoint_callback( \WP_REST_Request $request ) {
 		$data = [];
 
-		$site_url = home_url();
+		$home_url = home_url();
 
 		$page_on_front = get_option( 'page_on_front' );
 
@@ -54,13 +65,13 @@ class Routes extends AbstractEndpoint {
 				continue;
 			}
 
-			$url = str_replace( $site_url, '', get_permalink( $page ) );
+			$url = str_replace( $home_url, '', get_permalink( $page ) );
 
 			$data[] = [
 				'state' => $page->post_name,
 				'url' => '/' === $url ? $url : rtrim( $url, '/' ),
 				'template' => get_post_meta( $page->ID, '_wp_page_template', true ),
-				'endpoint' => get_rest_url( null, 'wp/v2/pages' ),
+				'endpoint' => $this->get_wp_endpoint_route( 'pages' ),
 				'params' => [
 					'include' => $page->ID,
 				],
@@ -82,7 +93,7 @@ class Routes extends AbstractEndpoint {
 
 		$blog_url = false;
 
-		$site_url = home_url();
+		$home_url = home_url();
 
 		$page_on_front = get_option( 'page_on_front' );
 
@@ -91,7 +102,7 @@ class Routes extends AbstractEndpoint {
 		if ( ! $page_on_front ) {
 			$blog_url = '/';
 		} elseif ( $blog_page ) {
-			$blog_url = rtrim( str_replace( $site_url, '', get_permalink( $blog_page ) ), '/' );
+			$blog_url = rtrim( str_replace( $home_url, '', get_permalink( $blog_page ) ), '/' );
 		}
 
 		if ( $blog_url ) {
@@ -99,7 +110,7 @@ class Routes extends AbstractEndpoint {
 				'state' => 'blogIndex',
 				'url' => $blog_url,
 				'template' => 'blog',
-				'endpoint' => get_rest_url( null, 'wp/v2/posts' ),
+				'endpoint' => $this->get_wp_endpoint_route( 'posts' ),
 				'params' => apply_filters( self::FILTER_BLOG_PARAMS, [] ),
 			];
 		}
@@ -112,7 +123,7 @@ class Routes extends AbstractEndpoint {
 				'state' => 'blogPost',
 				'url' => $single_post_url . '/:slug',
 				'template' => 'blog-single',
-				'endpoint' => get_rest_url( null, 'wp/v2/posts' ),
+				'endpoint' => $this->get_wp_endpoint_route( 'posts' ),
 			];
 		}
 
